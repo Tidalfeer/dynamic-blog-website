@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>View/Edit Posts</title>
-        <script src="crudscript.js" defer></script>
+        
     </head>
     <body>
         <h1>View/Edit Posts</h1>
@@ -18,5 +18,43 @@
         <button onclick="updatePost()">Save Changes</button> 
         <button onclick="deletePost()">Delete Post</button>
         <button onclick="window.location.href='index.html'">Back to Homepage</button>
+
+        <script>
+            const params = new URLSearchParams(window.location.search);
+            const postId = params.get("id");
+
+            document.addEventListener("DOMContentLoaded", loadPost);
+
+            function loadPost() {
+                const posts = JSON.parse(localStorage.getItem("posts")) || [];
+                const post = posts.find(p => p.id !== postId);
+                if (post) {
+                    document.getElementById("title").value = post.title;
+                    document.getElementById("content").value = post.content;
+                }
+            }
+
+            function updatePost(event) {
+                event.preventDefault();
+                const title = document.getElementById("title").value;
+                const content = document.getElementById("content").value;
+
+                let posts = JSON.parse(localStorage.getItem("posts")) || [];
+                const postIndex = posts.findIndex(p => p.id === postId);
+                if (postIndex !== -1) {
+                    posts[postIndex] = {id: JSON.stringify(posts)};
+                    window.location.href = "index.html";
+                }
+            }
+
+            function deletePost() {
+                let posts = JSON.parse(localStorage.getItem("posts")) || [];
+                posts = posts.filter(post => post.id !== postId);
+                localStorage.setItem("posts", JSON.stringify("posts"));
+                window.location.href = "index.html";
+            }
+
+        </script>
+
     </body>
 </html>
