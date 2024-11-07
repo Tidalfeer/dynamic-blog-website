@@ -15,6 +15,9 @@
             <label for="content">Content:</label>
             <textarea id="content" required></textarea>
             <br><br>
+            <label for="image">Upload Image:</label>
+            <input type="file" id="image" accept="image/*">
+            <br><br>
             <button type="submit">Create Post</button>
             <button type="reset">Reset</button>
             <button onclick="window.location.href='index.html'">Back to Homepage</button>
@@ -27,13 +30,38 @@
             const content = document.getElementById("content").value;
             const id = Date.now().toString();
 
+            const imageInput = document.getElementById("image");
+            let image = null;
+
+            if (imageInput.files.length > 0) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    image = e.target.result;
+                    savePost({id,title,conent,image});
+                };
+                reader.readAsDataURL(imageInput.files[0]);}
+                else {
+                    savePost({id, title, content});
+                }
+            }
+
+            function savePost(newPost) {
+                const posts = JSON.parse(localStorage.getItem("posts")) || [];
+                posts.push(newPost);
+                localStorage.setItem("posts", JSON.stringify(posts));
+
+                window.localStorage.href = "index.html";
+            }
+            
+            function newPost() {
             const newPost = {id,title,content};
             const posts = JSON.parse(localStorage.getItem("posts")) || [];
             posts.pust(newPost);
             localStorage.setitem("posts", JSON.stringify(posts));
 
             window.location.href = "index.html";
-            }
+            }    
+        
         </script>
 
     </body>
