@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Creat New Post</title>
+        <link rel="sstylesheet" href="styles.css">
+    </head>
+
+    <body>
+        <h1>Creat New Post</h1>
+        <form onsubmit="createPost(event)">
+            <label for="title">Title:</label>
+            <input type="text" id="title" required>
+            <br><br>
+            <label for="content">Content:</label>
+            <textarea id="content" required></textarea>
+            <br><br>
+            <label for="image">Upload Image:</label>
+            <input type="file" id="image" accept="image/*">
+            <br><br>
+            <button type="submit">Create Post</button>
+            <button type="reset">Reset</button>
+            <button onclick="window.location.href='index.html'">Back to Homepage</button>
+        </form>
+
+        <script>
+            function createPost(event) {
+            event.preventDefault();
+            const title = document.getElementById("title").value;
+            const content = document.getElementById("content").value;
+            const id = Date.now().toString();
+
+            const imageInput = document.getElementById("image");
+            let image = null;
+
+            if (imageInput.files.length > 0) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    image = e.target.result;
+                    savePost({id,title,conent,image});
+                };
+                reader.readAsDataURL(imageInput.files[0]);}
+                else {
+                    savePost({id, title, content});
+                }
+            }
+
+            function savePost(newPost) {
+                const posts = JSON.parse(localStorage.getItem("posts")) || [];
+                posts.push(newPost);
+                localStorage.setItem("posts", JSON.stringify(posts));
+
+                window.localStorage.href = "index.html";
+            }
+            
+            function newPost() {
+            const newPost = {id,title,content};
+            const posts = JSON.parse(localStorage.getItem("posts")) || [];
+            posts.pust(newPost);
+            localStorage.setitem("posts", JSON.stringify(posts));
+
+            window.location.href = "index.html";
+            }    
+        
+        </script>
+
+    </body>
+
+</html>
