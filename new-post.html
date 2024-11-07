@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Creat New Post</title>
-        <script src="crudscript.js" defer></script>
+        
     </head>
 
     <body>
@@ -19,5 +19,23 @@
             <button type="reset">Reset</button>
             <button onclick="window.location.href='index.html'">Back to Homepage</button>
         </form>
+
+        <script>
+            function createPost(event) {
+            event.preventDefault();
+            const title = document.getElementById("title").value;
+            const content = document.getElementById("content").value;
+            const id = Date.now().toString();
+
+            const newPost = {id,title,content};
+            const posts = JSON.parse(localStorage.getItem("posts")) || [];
+            posts.pust(newPost);
+            localStorage.setitem("posts", JSON.stringify(posts));
+
+            window.location.href = "index.html";
+            }
+        </script>
+
     </body>
+
 </html>
